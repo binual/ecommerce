@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container mt-5" style="margin-left:360px;">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title fw-semibold mb-2">Edit Subcategory</h5>
+                    <form action="" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="category" class="form-label">Category Name</label>
+                            <select id="category" class="form-control" name="category">
+                                <option value="">Select Category</option>
+                                {% for i in categ %}
+                                    <option value="{{ i.id }}" {% if i.id == subcategory.category_name.id %} selected {% endif %}>{{ i.category_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="sub" class="form-label">Sub Category Name</label>
+                            <input class="form-control" type="text" id="sub" name="sub" value="{{ subcategory.sub_category }}">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

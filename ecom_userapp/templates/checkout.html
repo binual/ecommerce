@@ -1,0 +1,87 @@
+{% extends "navbar.html" %}
+{% block content %}
+
+
+<div class="col-md-4 col-sm-12 estimate-ship-tax">
+	<table class="table">
+		<thead>
+			<tr>
+				<th>
+					<span class="estimate-title">Billing Address</span>
+					{% comment %} <p>Enter your destination to get shipping and tax.</p> {% endcomment %}
+				</th>
+			</tr>
+		</thead><!-- /thead -->
+		<tbody>
+				<tr>
+					<td>
+						<form method="post" action="{% url 'checkout' %}">
+							{% csrf_token %}
+                        <div class="form-group">
+							<label class="info-title control-label">FullName:</label>
+							<input type="text" class="form-control unicase-form-control text-input" name="fullname" placeholder="">
+						</div>
+
+                        <div class="form-group">
+							<label class="info-title control-label">Address:</label>
+							<input type="text" class="form-control unicase-form-control text-input" name="address" placeholder="">
+						</div>
+
+
+						<div class="form-group">
+							<label class="info-title control-label">Country <span>*</span></label>
+							<select class="form-control unicase-form-control selectpicker" name="country">
+								<option>--Select options--</option>
+								<option>India</option>
+								<option>SriLanka</option>
+								<option>united kingdom</option>
+								<option>saudi arabia</option>
+								<option>united arab emirates</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label class="info-title control-label">State/Province <span>*</span></label>
+							<select class="form-control unicase-form-control selectpicker" name="state">
+								<option>--Select options--</option>
+								<option>TamilNadu</option>
+								<option>Kerala</option>
+								<option>Andhra Pradesh</option>
+								<option>Karnataka</option>
+								<option>Madhya Pradesh</option>
+							</select>
+						</div>
+
+
+                        <div class="form-group">
+							<label class="info-title control-label">district:</label>
+							<input type="text" class="form-control unicase-form-control text-input" name="district" placeholder="">
+						</div>
+
+                        
+
+
+
+						<div class="form-group">
+							<label class="info-title control-label">Zip/Postal Code</label>
+							<input type="text" class="form-control unicase-form-control text-input" name="zipcode" placeholder="">
+						</div>
+                        <div class="form-group">
+							<label class="info-title control-label">Nearest Land Mark:</label>
+							<input type="text" class="form-control unicase-form-control text-input" name="nearest_land_mark" placeholder="">
+						</div>
+
+                        <div class="form-group">
+							<label class="info-title control-label">Mobile Number:</label>
+							<input type="text" value="{{request.session.phone_number}}" class="form-control unicase-form-control text-input" placeholder="">
+						</div>
+
+						<div class="pull-right">
+                            <button type="submit" class="btn-upper btn btn-primary" style="padding: 15px 40px; font-size: 15px;">Place Order</button>
+                        </div>
+                        
+					</td>
+				</tr>
+		</tbody>
+	</table>
+</div><!-- /.estimate-ship-tax -->
+{% endblock %}

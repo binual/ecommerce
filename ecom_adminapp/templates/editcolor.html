@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Size</title>
+    <style>
+        /* Apply styles to the container */
+        .edit-color-form {
+          max-width: 400px;
+          margin: 0 auto;
+          padding: 20px;
+          border: 1px solid #ccc;
+          background-color: #f8f8f8;
+          text-align: center; /* Center-align the form */
+          box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); /* Add a subtle box shadow for a modern look */
+          border-radius: 8px; /* Rounded corners for the form */
+        }
+      
+        /* Style the form header */
+        h2 {
+          font-size: 24px;
+          margin-bottom: 20px;
+          color: #007bff; /* Change header color */
+        }
+      
+        /* Style the form elements */
+        .form-group {
+          margin-bottom: 20px;
+        }
+      
+        label {
+          font-weight: bold;
+        }
+      
+        .form-control {
+          width: 100%;
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+        }
+      
+        /* Style the submit button */
+        .submit-btn {
+          background-color: #007bff;
+          color: #fff;
+          padding: 10px 20px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+      
+        .submit-btn:hover {
+          background-color: #0056b3;
+        }
+      </style>
+      
+</head>
+<body>
+    <div class="edit-color-form">
+        <form action="{% url 'editcolor' color.id %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h2>Edit Color</h2>
+            <div class="form-group">
+                <label for="color">Color</label>
+                <input type="text" id="" name="name" value="{{ color.name }}" class="form-control" required>
+            </div>
+            <button type="submit" class="submit-btn">Submit</button>
+        </form>
+    </div>
+</body>
+</html>
+{% endblock %}

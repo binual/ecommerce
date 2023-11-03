@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+  /* Add your custom CSS styles here */
+  .add-size-form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f7f7f7;
+    text-align: center; /* Center-align the form */
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-label {
+    font-weight: bold;
+    font-size: 18px;
+  }
+
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .submit-btn {
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+
+  .submit-btn:hover {
+    background-color: #45a049;
+  }
+</style>
+
+<div class="add-size-form">
+  <form action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group">
+      <label class="form-label" for="size">Size:</label>
+      <input type="text" id="size" name="name" class="form-control" required>
+    </div>
+    
+    <button type="submit" class="submit-btn">Submit</button>
+  </form>
+</div>
+{% endblock %}

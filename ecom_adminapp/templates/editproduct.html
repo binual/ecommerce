@@ -1,0 +1,224 @@
+{% extends "base.html" %}
+
+{% block content %}
+<br>
+<br>
+<br>
+<br>
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    
+    <style>
+        /* Style for the form container */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f2f2f2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* Style for the form */
+form {
+    background-color: #ffffff;
+    border-radius: 10px;
+    
+    width: 100%;
+    max-width: 400px;
+    padding: 30px;
+}
+
+/* Style for the form header (Edit Product) */
+h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Style for form labels */
+label {
+    font-weight: bold;
+    color: #333;
+}
+
+/* Style for form inputs and selects */
+.form-control {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    
+    font-size: 20px;
+}
+
+/* Style for the image preview */
+.form-group.image img {
+    max-width: 100px;
+    margin-top: 10px;
+}
+
+/* Style for the submit button */
+.submit-btn input {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    cursor: pointer;
+    font-size: 20px;
+    transition: background-color 0.3s;
+}
+
+/* Style for the submit button on hover */
+.submit-btn input:hover {
+    background-color: #0056b3;
+}
+
+/* Style for the category and subcategory dropdowns */
+.form-group select {
+    width: 100%;
+    padding: 5px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    
+    font-size: 20px;
+}
+
+/* Style for the checkbox */
+.form-check-label {
+    color: #333;
+    font-size: 20px;
+}
+
+/* Additional styles for other elements as needed */
+
+/* Custom CSS for specific elements or classes can be added here */
+
+    </style>
+</head>
+<body>
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h2>Edit Product</h2>
+
+      <!-- Category Dropdown -->
+        <div class="form-group">
+            <label for="Category">Category</label>
+            <select class="form-control" name="category" id="categoryDropdown">
+                <option value="">Select a category</option>
+                {% for i in cat %}
+                    <option value="{{ i.id }}" {% if i.id == ct.category_name.id %} selected {% endif %}>{{ i.category_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <!-- Subcategory Dropdown -->
+        <div class="mb-3">
+            <label for="subcategory">Subcategory:</label>
+            <select id="subcategoryDropdown" name="subcategory" class="form-control">
+                <option value="">Select a subcategory</option>
+                {% for subcat in subcategory %}
+                    <option value="{{ subcat.id }}" {% if subcat.id == ct.sub_category.id %} selected {% endif %}>
+                        {{ subcat.sub_category }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        
+
+  <script>
+    $(document).ready(function() {
+        // Hide all subcategory options initially
+        $("#subcategoryDropdown option").hide();
+
+        // Show subcategory options when a category is selected
+        $("#categoryDropdown").change(function() {
+            var selectedCategoryId = $(this).val();
+
+            // Hide all subcategory options
+            $("#subcategoryDropdown option").hide();
+
+            // Show subcategory options that match the selected category
+            $("#subcategoryDropdown option[data-category='" + selectedCategoryId + "']").show();
+        });
+
+        // Trigger the change event to display subcategory options on page load
+        $("#categoryDropdown").trigger('change');
+    });
+</script>
+
+        <!-- Title Input -->
+        <div class="form-group title">
+            <label for="Title">Title</label>
+            <input type="text" value="{{ ct.title }}" name="title" class="form-control">
+        </div>
+
+        <!-- Description Input -->
+        <div class="form-group description">
+            <label for="Description">Description</label>
+            <input type="text" value="{{ ct.description }}" name="description" class="form-control">
+        </div>
+
+        <!-- Image Input -->
+        <div class="form-group image">
+            <label for="Image">Image</label>
+            <img src="{{ ct.image_set.first.image.url }}" alt="{{ ct.title }}" class="product-image">
+            <input type="file" name="image" accept="image/*" class="form-control">
+        </div>
+
+
+
+        <!-- Price Input -->
+        <div class="form-group price">
+            <label for="Price">Price</label>
+            <input type="text" value="{{ ct.price }}" name="price" class="form-control">
+        </div>
+
+        
+
+        <!-- Size Input -->
+        <div class="mb-3">
+            <label for="Size">Size</label>
+            <select name="size" class="form-control" >
+                <option value="">Select size(s)</option>
+                {% for size in sizes %}
+                    <option value="{{ size.id }}" {% if size in ct.sizes.all %} selected {% endif %}>{{ size.name }}</option>
+                {% endfor %}
+            </select>
+          </div>
+          
+          <!-- Add Color Dropdown -->
+          <div class="mb-3">
+            <label for="Color">Color</label>
+            <select name="color" class="form-control" >
+                <option value="">Select color(s)</option>
+                {% for color in colors %}
+                    <option value="{{ color.id }}" {% if color in ct.colors.all %} selected {% endif %}>{{ color.name }}</option>
+                {% endfor %}
+            </select>
+          
+          </div>
+  
+          <div class="form-group">
+            <label for="stock">Stock:</label>
+            <input type="number" class="form-control" id="stock" name="stock" value="{{ ct.stock }}">
+        </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="is_available" name="is_available" {% if ct.is_available %} checked {% endif %}>
+            <label class="form-check-label" for="is_available">Is Available</label>
+        </div>
+        <!-- Submit Button -->
+        <div class="form-group submit-btn">
+            <input type="submit" value="Submit" class="btn btn-primary">
+        </div>
+    </form>
+    
+</body>
+
+
+{% endblock %}

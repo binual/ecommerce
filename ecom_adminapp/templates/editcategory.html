@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+
+<head>
+    
+<style>
+
+    /* style.css */
+
+    /* Apply styles to the container */
+    .edit-category-form {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        background-color: #f8f8f8;
+    }
+    
+    /* Style the form elements */
+    .form-group {
+        margin-bottom: 15px;
+    }
+    
+    label {
+        font-weight: bold;
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    
+    /* Style the submit button */
+    .submit-btn {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    
+    .submit-btn:hover {
+        background-color: #0056b3;
+    }
+    
+    /* Style the "View Image" button */
+    .view-image-btn {
+        background-color: #28a745;
+        color: #fff;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+    
+    .view-image-btn:hover {
+        background-color: #1f8e28;
+    }
+      
+</style>
+
+</head>
+<body>
+    <div class="edit-category-form">
+        <form action="{% url 'editcategory' category.id %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h2>Edit Category</h2>
+            <div class="form-group">
+                <label for="category_name">Category Name:</label>
+                <input type="text" id="category_name" name="category_name" value="{{ category.category_name }}" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="category_image">Category Image:</label>
+                
+                <!-- Adjust the image size using HTML attributes -->
+                <img src="{{ category.category_image.url }}" width="300" height="200" alt="Category Image" class="w-100">
+                
+                <!-- You can set 'width' and 'height' attributes as needed -->
+                
+                <input type="file" id="category_image" name="category_image" accept="image/*" class="form-control">
+            </div>
+            <button type="submit" class="submit-btn">Submit</button>
+        </form>
+    
+        
+</body>
+</html>
+
+{% endblock %}

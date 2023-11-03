@@ -1,0 +1,229 @@
+{% extends 'base.html' %}
+{% block content %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+<style>
+  /* Center-align the form vertically and horizontally */
+  .form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Adjust the height as needed */
+  }
+
+  /* Style the form container as a box */
+  .form-box {
+    background: #f8f9fa; /* Light gray background color */
+    border-radius: 7px;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    max-width: 500px;
+    width: 100%;
+  }
+
+  /* Style the form header */
+  h2 {
+    text-align: center;
+    color: #007bff; /* Blue color */
+  }
+
+  /* Style form labels */
+  label {
+    font-weight: bold;
+    color: #333; /* Dark gray color */
+  }
+
+  /* Style form input fields */
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  /* Style the "Submit" button */
+  .btn-primary {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  /* Add a hover effect to the "Submit" button */
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+</style>
+
+<div class="form-container">
+  <!-- Form Box -->
+  <div class="form-box">
+    <!-- General Form Elements -->
+    <form action="{% url 'addproduct' %}" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <h2>Add Product</h2>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+
+<br>
+
+      <!-- Category Dropdown -->
+      <div class="mb-3">
+        <label for="category">Category</label>
+        <select class="form-control" name="category" id="categoryDropdown">
+          <option value="">Select a category</option>
+          {% for cat in categories %}
+            <option value="{{ cat.id }}">{{ cat.category_name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Subcategory Dropdown -->
+      <div class="mb-3">
+        <label for="subcategory">Subcategory:</label>
+        <select id="subcategoryDropdown" name="subcategory" class="form-control">
+          <option value="">Select a subcategory</option>
+          {% for subcategory in subcategories %}
+            <option
+              value="{{ subcategory.id }}"
+              data-category="{{ subcategory.category_name.id }}"
+            >
+              {{ subcategory.sub_category }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+      <script>
+        $(document).ready(function() {
+            // Hide all subcategory options initially
+            $("#subcategoryDropdown option").hide();
+
+            // Show subcategory options when a category is selected
+            $("#categoryDropdown").change(function() {
+                var selectedCategoryId = $(this).val();
+
+                // Hide all subcategory options
+                $("#subcategoryDropdown option").hide();
+
+                // Show subcategory options that match the selected category
+                $("#subcategoryDropdown option[data-category='" + selectedCategoryId + "']").show();
+            });
+
+            // Trigger the change event to display subcategory options on page load
+            $("#categoryDropdown").trigger('change');
+        });
+    </script>
+
+      <div class="mb-3">
+        <label for="images">Image</label>
+        <input type="file" name="images" id="images" class="form-control" multiple>
+        <small class="form-text text-muted">Select one or more images for the product (Hold Ctrl/Cmd to select multiple).</small>
+      </div>
+
+      <div class="mb-3">
+        <label for="title">Title</label>
+        <input type="text" name="title" class="form-control">
+      </div>
+
+      <div class="mb-3">
+        <label for="description">Description</label>
+        <input type="text" name="description" class="form-control">
+      </div>
+
+     
+      <div class="row mb-3">
+        <div class="col">
+          <label for="price">Price</label>
+          <input type="text" name="price" id="price" class="form-control">
+        </div>
+      
+        <div class="col">
+          <label for="offer_price">Offer Price</label>
+          <input type="text" name="offer_price" id="offer_price" class="form-control">
+        </div>
+      </div>
+      
+      <div class="mb-3">
+        <label for="discounted_price">Discount Percentage (%)</label>
+        <input type="text" name="discounted_price" id="discounted_price" class="form-control">
+      </div>
+      
+      <script>
+        // Function to calculate the discount percentage and update the "Discount Percentage" field
+        function calculateDiscountPercentage() {
+          var price = parseFloat(document.getElementById("price").value);
+          var offerPrice = parseFloat(document.getElementById("offer_price").value);
+      
+          if (!isNaN(price) && !isNaN(offerPrice)) {
+            var discountPercentage = ((price - offerPrice) / price) * 100;
+            document.getElementById("discounted_price").value = discountPercentage.toFixed(0) + "%";
+          } else {
+            document.getElementById("discounted_price").value = "";
+          }
+        }
+      
+        // Call the calculateDiscountPercentage function when price or offer price changes
+        document.getElementById("price").addEventListener("input", calculateDiscountPercentage);
+        document.getElementById("offer_price").addEventListener("input", calculateDiscountPercentage);
+      </script>
+        <div class="mb-3">
+          <label for="Size">Size</label>
+          <select name="size" class="form-control" multiple>
+            <option value="">Select size(s)</option>
+            {% for size in sizes %}
+              <option value="{{ size.id }}">{{ size.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        
+        <!-- Add Color Dropdown -->
+        <div class="mb-3">
+          <label for="Color">Color</label>
+          <select name="color" class="form-control" multiple>
+            <option value="">Select color(s)</option>
+            {% for color in colors %}
+                <option value="{{ color.id }}">{{ color.name }}</option>
+            {% endfor %}
+        </select>
+        
+        </div>
+
+        <div class="form-group">
+          <label for="stock">Stock:</label>
+          <input type="number" class="form-control" id="stock" name="stock" >
+        </div>
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" id="is_available" name="is_available" checked>
+          <label class="form-check-label" for="is_available">Is Available</label>
+        </div>
+
+
+        
+      <div class="mb-3">
+        <input type="submit" value="Submit" class="btn btn-primary">
+      </div>
+    </form><!-- End General Form Elements -->
+  </div>
+</div>
+
+{% endblock %}

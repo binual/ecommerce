@@ -1,0 +1,82 @@
+{% extends "navbar.html" %}
+{% block content %}
+
+
+<div class="col-md-4 col-sm-12 estimate-ship-tax">
+	<table class="table">
+		<thead>
+            <tr>
+                <th>
+                    <span class="estimate-title"></span>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for address in address_objs %}
+                <h2>Address Details</h2>
+                <div>
+                    <h3>Shipping Address:</h3>
+                    <p>Full Name: {{ address.fullname }}</p>
+                    <p>Address: {{ address.address }}</p>
+                    <p>Country: {{ address.country }}</p>
+                    <p>State: {{ address.state }}</p>
+                    <p>District: {{ address.district }}</p>
+                    <p>Zipcode: {{ address.zipcode }}</p>
+                    <p>Nearest Land Mark: {{ address.nearest_land_mark }}</p>
+                </div>
+            {% endfor %}
+        </tbody>
+				
+	</table>
+</div><!-- /.estimate-ship-tax -->
+
+<div class="col-md-4 col-sm-12 estimate-ship-tax">
+	<table class="table">
+		<thead>
+            <tr>
+                <th>
+                    <span class="estimate-title"></span>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tbody>
+                <h2>Price Summary</h2>
+                <div>
+                    <p>Total: {{ total }}</p>
+                    <p>Quantity: {{ quantity }}</p>
+                    <p>Tax: {{ tax }}</p>
+                    <p>Grand Total: {{ grand_total }}</p>
+                </div>
+            </tbody><!-- /tbody -->
+       
+				
+	</table>
+</div><!-- /.estimate-ship-tax -->
+
+
+<div class="col-md-4 col-sm-12 estimate-ship-tax">
+    <table class="table">
+        <thead>
+            <h2>Selected Products</h2>
+            <div>
+                {% for cart_item in cart_items %}
+                    <p>Product: {{ cart_item.product.title }},<br> 
+                        Quantity: {{ cart_item.quantity }}, <br>
+                        Subtotal: {{ cart_item.sub_total }}</p>
+                    <img src="{{ cart_item.product.image_set.first.image.url }}" alt="{{ cart_item.product.title }} Image">
+                {% endfor %}
+            </div>
+        <br>
+        <br>
+        <div>
+            <a href="{% url 'payment' %}" style="padding: 10px 20px; font-size: 16px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; text-decoration: none; display: inline-block;">Proceed to Payment</a>
+        </div>
+        
+        
+        </tbody><!-- /tbody -->
+    </table><!-- /table -->
+</div><!-- /.cart-shopping-total -->
+</div><!-- /.row -->
+
+{% endblock %}

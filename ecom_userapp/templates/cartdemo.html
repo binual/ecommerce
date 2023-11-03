@@ -1,0 +1,9 @@
+{% if cart_items %}
+    <ul>
+        {% for cart_item in cart_items %}
+            <li>{{ cart_item.product.title }} - Quantity: {{ cart_item.quantity }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Your cart is empty.</p>
+{% endif %}

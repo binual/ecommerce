@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+  /* Add your custom CSS styles here */
+  .add-color-form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f7f7f7;
+    text-align: center; /* Center-align the form */
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-label {
+    font-weight: bold;
+    font-size: 18px;
+  }
+
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .submit-btn {
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+
+  .submit-btn:hover {
+    background-color: #45a049;
+  }
+
+  /* Center the submit button */
+  .submit-btn-wrapper {
+    text-align: center;
+  }
+
+  /* Style for form header */
+  .form-header {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  /* Style for form container */
+  .form-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+</style>
+
+
+<div class="add-color-form">
+  <div class="form-container">
+    <h2 class="form-header">Add Color</h2>
+    <form action="" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="form-group">
+        <label class="form-label" for="color">Color:</label>
+        <input type="text" id="color" name="name" class="form-control" required>
+      </div>
+      
+      <div class="submit-btn-wrapper">
+        <button type="submit" class="submit-btn">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+{% endblock %}

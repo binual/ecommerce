@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">  
+<main id="main" class="main">
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-6">
+                <!-- Add Product Button -->
+                <a href="{% url 'addproduct' %}" class="btn btn-primary">
+                    <i class="fa fa-plus"></i> Add Product
+                </a>
+
+                <!-- General Form Elements -->
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Category</th>
+                            <th scope="col">Subcategory</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Product Image</th>
+                            <th scope="col">Colour</th>
+                            <th scope="col">Size</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Offer Price</th>
+                            <th scope="col">Available</th>
+
+                            <th scope="col">Stock</th>
+
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in produ %}
+                        <tr>
+                            <td>{{ product.category_name.category_name }}</td>
+                            <td>{{ product.sub_category.sub_category }}</td>
+                            <td>{{ product.title }}</td>
+                            <td>{{ product.description }}</td>
+                            <td>
+                                {% if product.image_set.first %}
+                                    <img src="{{ product.image_set.first.image.url }}" alt="Product" class="product-image">
+                                {% else %}
+                                    <p>No image available</p>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% for color in product.productcolor_set.all %}
+                                    {{ color.color.name }}<br>
+                                {% empty %}
+                                    N/A
+                                {% endfor %}
+                            </td>
+                            <td>
+                                {% for size in product.productsize_set.all %}
+                                    {{ size.size.name }}<br>
+                                {% empty %}
+                                    N/A
+                                {% endfor %}
+                            </td>
+                            <td>{{ product.price }}</td>
+                            <td>{{ product.offer_price }}</td>
+                            <td class="pt-4">{{ product.stock}}</td>
+                            {% if product.is_available == 1 %}
+                            <td style="color: red;" class="pt-4">in stock</td>
+                            {% else %}
+                            <td style="color: red;" class="pt-4">out of stock</td>
+                            {% endif %}
+                            
+                            
+                            
+                            
+                            
+                            
+
+                            <td>
+                                {% if product.pk %}
+                                    <a href="{% url 'editproduct' pk=product.pk %}" class="btn btn-light btn-action"><i style="color: black" class="fa fa-edit"></i></a>
+                                    <a href="{% url 'deleteproduct' pk=product.pk %}" class="btn btn-light btn-action"><i style="color: red" class="fa fa-trash"></i></a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</main><!-- End #main -->
+
+<style>
+    /* CSS to reduce image size */
+    .product-image {
+        max-width: 100px; /* Adjust the maximum width as needed */
+        max-height: 100px; /* Adjust the maximum height as needed */
+    }
+</style>
+
+{% endblock %}

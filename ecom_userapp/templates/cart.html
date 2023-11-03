@@ -1,0 +1,156 @@
+{% extends "navbar.html" %}
+{% block content %}
+
+
+<style>
+#page-content {
+    min-height: 100vh; / Ensure the content fills at least the viewport height /
+    display: flex;
+    flex-direction: column;
+}
+</style>
+
+<div class="breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-inner">
+            <ul class="list-inline list-unstyled">
+                <li><a href="">Home</a></li>
+                <li class='active'>Shopping Cart</li>
+            </ul>
+        </div><!-- /.breadcrumb-inner -->
+    </div><!-- /.container -->
+</div><!-- /.breadcrumb -->
+{% if not cart_items %}
+<table align="center" id="page-content">
+    <h2>Your Shopping Cart is Empty</h2>
+    <a href="" class='btn btn-primary'>Shop Now </a>
+</table>
+{% else %}
+<div class="body-content outer-top-xs">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="shopping-cart">
+                    <div class="shopping-cart-table">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="cart-romove item">Remove</th>
+                                        <th class="cart-description item">Image</th>
+                                        <th class="cart-product-name item">Product Name</th>
+                                        <th class="cart-qty item">Quantity</th>
+                                        <th class="cart-sub-total item">Subtotal</th>
+                                        <th class="cart-total last-item">Grandtotal</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="7">
+                                            <div class="shopping-cart-btn">
+                                                <span class="">
+                                                    <a href="" class="btn btn-upper btn-primary outer-left-xs">Continue Shopping</a>
+                                                </span>
+                                            </div><!-- /.shopping-cart-btn -->
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                                <tbody>
+                                    {% for i in cart_items %}
+                                    <tr>
+                                        <td class="romove-item"><a href="" title="cancel" class="icon"><i class="fa fa-trash-o"></i></a></td>
+                                        <td class="cart-image">
+                                                {% if i.product.image_set.first %}
+                                                    <a class="entry-thumbnail" href="">
+                                                        <img
+                                                            src="{{ i.product.image_set.first.image.url }}"
+                                                            alt="{{ i.product.title }} Image"
+                                                        >
+                                                    </a>
+                                                {% endif %}
+
+
+
+
+
+
+                                        </td>
+                                        <td class="cart-product-name-info">
+                                            <h4 class='cart-product-description'><a href="">{{i.product.title}}</a></h4>
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <div class="reviews">
+                                                        <span class="product-size">Size: {{ i.selected_size.name }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="cart-product-quantity">
+                                            <div class="quant-input">
+                                                <div class="arrows">
+                                                    <a href="{% url 'increase_quantity' i.id %}" class="arrow plus gradient"><span class="ir"><i class="icon fa fa-sort-asc"></i></span></a>
+                                                    <a href="{% url 'decrease_quantity' i.id %}" class="arrow plus gradient"><span class="ir"><i class="icon fa fa-sort-asc"></i></span></a>
+                                                </div>
+                                                <input type="text" value="{{i.quantity}}">
+                                            </div>
+                                        </td>
+                                        <td class="cart-product-sub-total"><span class="cart-sub-total-price">{{i.product.price}}</span></td>
+                                        <td class="cart-product-grand-total"><span class="cart-grand-total-price">{{i.sub_total}}</span></td>
+                                    </tr>
+
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div><!-- /.shopping-cart-table -->
+                </div><!-- /.shopping-cart -->
+            </div><!-- /.col-md-8 -->
+
+            <div class="col-md-3 col-sm-8 cart-shopping-total">
+                <table class="table">
+                    <thead>
+    <tr>
+        <th class="text-right">
+            <div class="cart-sub-total">
+                Total<span class="inner-left-md">{{total}}</span>
+            </div><br>
+            <div class="cart-sub-total">
+                Tax<span class="inner-left-md">{{tax}}</span>
+            </div><br>
+            <div class="cart-grand-total">
+                Grand Total<span class="inner-left-md">{{grand_total}}</span>
+            </div>
+        </th>
+    </tr>
+</thead>
+
+                    <tbody>
+                        <tr>
+                            <td>
+                                <!-- "Proceed to Checkout" button -->
+                                {% if request.session.phone_number %}
+                                {% comment %} {% if user_details_exist %} {% endcomment %}
+                                <a href="{% url 'checkout' %}" class="btn btn-primary" id="add-review-btn">
+                                    <i class="fa fa-shopping-cart inner-right-vs"></i>PROCEED TO CHECKOUT</a>
+                                {% comment %} {% else %}
+                                <a href="{% url 'checkout' %}" class="btn btn-primary" id="add-review-btn">
+                                    <i class="fa fa-shopping-cart inner-right-vs"></i>PROCEED TO CHECKOUT</a>
+                                {% endif %}  {% endcomment %}
+                                {% else %}
+                                <div class="cart-checkout-btn pull-right">
+                                    <a href="{% url 'userlogin' %}" class="btn btn-primary checkout-btn">PROCEED TO CHECKOUT</a>
+                                </div>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div><!-- /.col-md-4 -->
+        </div> <!-- /.row -->
+    </div><!-- /.container -->
+</div><!-- /.body-content -->
+{% endif %}
+{% endblock %}
+
+
+
